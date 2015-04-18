@@ -1,0 +1,11 @@
+-if @pick
+  #pick-dashboard
+    %h3 Draft Command Center
+
+    %div.rtest
+      = render :partial => 'shared/realtime'
+    = render :partial => 'shared/available_players'
+
+-else
+  %h4 Draft not active
+

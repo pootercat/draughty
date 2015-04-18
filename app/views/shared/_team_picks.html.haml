@@ -1,0 +1,12 @@
+.panel-group#accordian
+  .panel.panel-default
+    .panel-heading
+      %h4.panel-title
+        %a{"data-toggle"=>"collapse", "data-parent"=>"#accordion", "href"=>"#collapse3"} Results By Team
+    #collapse3.panel-collapse.collapse
+      .panel-body
+        .col-md-3.team-links
+          -@teams.each do |t|
+            %p
+              %a.team{:team_id => t.id} #{t.tname}
+        .col-md-9.team-results

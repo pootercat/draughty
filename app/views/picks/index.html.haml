@@ -1,0 +1,11 @@
+-if @pick
+  #pick-dashboard
+    %h3 Draft Stats Dashboard
+
+    = render :partial => 'shared/realtime'
+    = render :partial => 'shared/round_picks'
+    = render :partial => 'shared/team_picks'
+    = render :partial => 'shared/available_players'
+
+-else
+  %h4 Draft not active

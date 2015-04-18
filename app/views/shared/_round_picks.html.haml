@@ -1,0 +1,12 @@
+.panel-group#accordian
+  .panel.panel-default
+    .panel-heading
+      %h4.panel-title
+        %a{"data-toggle"=>"collapse", "data-parent"=>"#accordion", "href"=>"#collapse2"} Results By Round
+    #collapse2.panel-collapse.collapse
+      .panel-body
+        .col-md-3.round-links
+          -1.upto(7).each do |r|
+            %p
+              %a.round{:round_id => r} #{r}
+        .col-md-9.round-results

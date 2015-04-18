@@ -1,0 +1,24 @@
+!!!
+
+%html
+  %head
+    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1, maximum-scale=1"}
+    %title= content_for?(:title) ? yield(:title) : "Draughty"
+    = stylesheet_link_tag :application, :media => "all"
+    = javascript_include_tag :application
+    = csrf_meta_tags
+    = yield(:head)
+  %body
+    %header.navbar.navbar-fixed-top.navbar-inverse
+      %nav.navbar-inner
+        .container
+          %a.nav-link.user{:href => "/user"} User
+          %a.nav-link.admin{:href => "/admin"} Admin
+  #main{:role => "main"}
+    .container
+      .content
+        .row
+          .span12
+            = render :partial => 'shared/alerts'
+            = yield
+        %footer
