@@ -1,10 +1,11 @@
 Draughty::Application.routes.draw do
   post 'teams/draft_player' => 'teams#draft_player'
   get "teams/picks"    => 'teams#picks'
+  get "players/undrafted" => 'players#undrafted'
   get '/user'          => 'picks#index'
   get '/admin'         => 'picks#admin'
   get 'picks/by_round' => 'picks#by_round'
-  root to: 'picks#dashboard'
+  root to: 'picks#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

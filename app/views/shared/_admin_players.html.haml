@@ -5,8 +5,10 @@
         %a{"data-toggle"=>"collapse", "data-parent"=>"#accordion", "href"=>"#collapse4"} Available Players
     #collapse4.panel-collapse.collapse
       .panel-body
-        %span.draftables-user-container
+        %span.draftables-admin-container
           -@draftables.each do |r|
             %div{:player_id => r.id}
-              .col-md-6.pname #{r.pname}
+              .col-md-1.draft
+                %a.draft-me{:player_id => r.id} Draft
+              .col-md-5.pname #{r.pname}
               .col-md-6.pposition #{r.position}

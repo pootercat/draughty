@@ -16,7 +16,7 @@ class TeamsController < ApplicationController
     Team.draft_player(p)
     respond_to do |format|
       format.html
-      format.json { render json: {} }
+      format.json { render json: p }
     end
   end
 end

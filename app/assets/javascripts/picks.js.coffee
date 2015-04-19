@@ -13,7 +13,7 @@ $ ->
       success: (data,textStatus,jqXHR) ->
         $('.team-results').html('')
         for e in data
-          row = $('.team-results').append $ "<div class='col-md-4'>Round: " + e['round'] + "</div><div class='col-md-4'>Pick: " + e['pick'] + "</div><div class='col-md-4'>" + e['player']['pname'] + " (" + e['player']['position'] + ")</div>"
+          $('.team-results').append $ "<div class='col-md-4'>Round: " + e['round'] + "</div><div class='col-md-4'>Pick: " + e['pick'] + "</div><div class='col-md-4'>" + e['player']['pname'] + " (" + e['player']['position'] + ")</div>"
   )
 
   $(document).on('click','.round', (event) ->
@@ -28,10 +28,10 @@ $ ->
       success: (data,textStatus,jqXHR) ->
         $('.round-results').html('')
         for e in data
-          row = $('.round-results').append $ "<div class='col-md-4'>Pick: " + e['pick'] + "</div><div class='col-md-4'>Team: " + e['team']['tname'] + "</div><div class='col-md-4'>" + e['player']['pname'] + " (" + e['player']['position'] + ")</div>"
+          $('.round-results').append $ "<div class='col-md-4'>Pick: " + e['pick'] + "</div><div class='col-md-4'>Team: " + e['team']['tname'] + "</div><div class='col-md-4'>" + e['player']['pname'] + " (" + e['player']['position'] + ")</div>"
   )
 
-  $(document).on('click','.player', (event) ->
+  $(document).on('click','.draft-me', (event) ->
     player_id = $(this).attr('player_id')
     $.ajax 'teams/draft_player',
       type: 'POST',
@@ -40,29 +40,46 @@ $ ->
       error: (jqXHR,textStatus,error) ->
         alert "Error drafting player"
       success: (data,textStatus,jqXHR) ->
+        remove_drafted_player(data)
+        refresh_live_stats()
   )
 
   refresh_rate = 5000
   setTimeout(f = (->
-    $.ajax '/',
-      dataType: 'json',
-      error: (jqXHR, textStatus, error) ->
-        console.log(error)
-        #flash message
-      success: (data, textStatus, jqXHR) ->
-        update_page_stats(data)
+    refresh_live_stats()
+    refresh_player_list()
     setTimeout(f, refresh_rate)
   ), refresh_rate)
 
-  update_page_stats = (data)=>
-    #realtime
-    #recent picks data[0]
-    #picking now data[1]
-    #picking next data[2]
+  update_realtime_stats = (data) ->
     $('.recent-picks-container').html('')
     for d in data[0]
       $('.recent-picks-container').append("<p>" + d['team']['tname'] + " drafted " + d['player']['position'] + " " + d['player']['pname'] + "</p>")
     $('.picking_now').html(data[1]['team']['tname'])
     $('.picking_next').html(data[2]['team']['tname'])
 
-    #available players
+  update_player_list = (data) ->
+    $('.draftables-user-container').html('')
+    $('.draftables-admin-container').html('')
+    for d in data
+      $('.draftables-user-container').append "<div player_id='" + d['id'] + "'><div class='col-md-6 pname'>" + d['pname'] + "</div><div class='col-md-6 pposition'>" + d['position'] + "</div></div>"
+      $('.draftables-admin-container').append "<div player_id='" + d['id'] + "'><div class='col-md-1 draft'><a class='draft-me' player_id='" + d['id'] + "'>Draft</a></div><div class='col-md-5 pname'>" + d['pname'] + "</div><div class='col-md-6 pposition'>" + d['position'] + "</div></div>"
+
+  remove_drafted_player = (pid) ->
+    $('.draftables-admin-container').find('div[player_id="' + pid + '"]').remove()
+
+  refresh_live_stats = ->
+    $.ajax '/',
+      dataType: 'json',
+      error: (jqXHR, textStatus, error) ->
+        #flash message
+      success: (data, textStatus, jqXHR) ->
+        update_realtime_stats(data)
+
+  refresh_player_list = ->
+    $.ajax '/players/undrafted',
+      dataType: 'json',
+      error: (jqXHR, textStatus, error) ->
+        #flash message
+      success: (data, textStatus, jqXHR) ->
+        update_player_list(data)
