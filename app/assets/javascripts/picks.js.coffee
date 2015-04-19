@@ -12,10 +12,8 @@ $ ->
         alert "Error retrieving team picks"
       success: (data,textStatus,jqXHR) ->
         $('.team-results').html('')
-        unless data.count > 0
-          $('.team-results').append "<h3>No Team Picks Available</h3>"
         for e in data
-          row = $('.team-results').append $ "<div class='col-md-4'>Round: " + e['round'] + "</div>" + "<div class='col-md-4'>Pick: " + e['pick'] + "</div>" + "<div class='col-md-4'>Player: " + e['player'] + "</div>"
+          row = $('.team-results').append $ "<div class='col-md-4'>Round: " + e['round'] + "</div><div class='col-md-4'>Pick: " + e['pick'] + "</div><div class='col-md-4'>" + e['player']['pname'] + " (" + e['player']['position'] + ")</div>"
   )
 
   $(document).on('click','.round', (event) ->
@@ -30,7 +28,7 @@ $ ->
       success: (data,textStatus,jqXHR) ->
         $('.round-results').html('')
         for e in data
-          row = $('.round-results').append $ "<div class='col-md-12'>" + e['team']['tname'] + " drafted " + e['player']['pname'] + ' (' + e['player']['position'] + ')' + "</div>"
+          row = $('.round-results').append $ "<div class='col-md-4'>Pick: " + e['pick'] + "</div><div class='col-md-4'>Team: " + e['team']['tname'] + "</div><div class='col-md-4'>" + e['player']['pname'] + " (" + e['player']['position'] + ")</div>"
   )
 
   $(document).on('click','.player', (event) ->

@@ -7,7 +7,7 @@ class TeamsController < ApplicationController
     @picks = Pick.by_team(t)
     respond_to do |format|
       format.html
-      format.json { render json: @picks }
+      format.json { render json: @picks, include: [:player] }
     end
   end
 
