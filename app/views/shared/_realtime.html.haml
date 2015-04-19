@@ -8,15 +8,16 @@
         -# %h6 'R:#{@pick.round} | P:#{@pick.pick}'
 
         .col-md-4
-          %h5 Most Recent Picks
-          -if @previous.count > 0
-            -@previous.each do |p|
-              %p #{p.team.tname} drafted #{p.player.position} #{p.player.pname}
-          -else
-            %h6 None Available
+          %h5.recent_picks Most Recent Picks
+          %span.recent-picks-container
+            -if @recent_picks.count > 0
+              -@recent_picks.each do |p|
+                %p #{p.team.tname} drafted #{p.player.position} #{p.player.pname}
+            -else
+              %h6 None Available
         .col-md-4
           %h5 Picking Now
-          %p #{@pick.team.tname}
+          %p.picking_now #{@picking_now.team.tname}
         .col-md-4
           %h5 Next Pick
-          %p #{@on_deck.team.tname}
+          %p.picking_next #{@picking_next.team.tname}

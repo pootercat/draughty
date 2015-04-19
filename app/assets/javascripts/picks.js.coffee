@@ -47,13 +47,24 @@ $ ->
   refresh_rate = 5000
   setTimeout(f = (->
     $.ajax '/',
-      dataType: 'html',
+      dataType: 'json',
       error: (jqXHR, textStatus, error) ->
-        console.log("error")
         console.log(error)
         #flash message
       success: (data, textStatus, jqXHR) ->
-        console.log("success")
-        $('.rtest').html(data)
+        update_page_stats(data)
     setTimeout(f, refresh_rate)
   ), refresh_rate)
+
+  update_page_stats = (data)=>
+    #realtime
+    #recent picks data[0]
+    #picking now data[1]
+    #picking next data[2]
+    $('.recent-picks-container').html('')
+    for d in data[0]
+      $('.recent-picks-container').append("<p>" + d['team']['tname'] + " drafted " + d['player']['position'] + " " + d['player']['pname'] + "</p>")
+    $('.picking_now').html(data[1]['team']['tname'])
+    $('.picking_next').html(data[2]['team']['tname'])
+
+    #available players

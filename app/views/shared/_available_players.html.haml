@@ -6,7 +6,7 @@
     #collapse4.panel-collapse.collapse
       .panel-body
         %table.available-players
-          -@remainder.each do |r|
+          -@draftables.each do |r|
             %tr.player{:player_id => r.id}
               %td.pname #{r.pname}
               %td.pposition #{r.position}

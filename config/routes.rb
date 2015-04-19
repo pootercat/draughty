@@ -4,7 +4,7 @@ Draughty::Application.routes.draw do
   get '/user'          => 'picks#index'
   get '/admin'         => 'picks#admin'
   get 'picks/by_round' => 'picks#by_round'
-  root to: 'picks#index'
+  root to: 'picks#dashboard'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

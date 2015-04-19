@@ -1,4 +1,4 @@
--if @pick
+-if @draft_open
   #pick-dashboard
     %h3 Draft Stats Dashboard
 
@@ -9,3 +9,4 @@
 
 -else
   %h4 Draft not active
+-#   = render :partial => 'shared/draft_final'

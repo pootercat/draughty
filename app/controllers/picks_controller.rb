@@ -2,21 +2,26 @@ class PicksController < ApplicationController
   layout 'admin', :only => [:admin]
 
   def index
-    @pick      = Pick.active_pick
-    @on_deck   = Pick.on_deck
-    @previous  = Pick.previous
-    @teams     = Team.all.to_a
-    @remainder = Player.undrafted
+    self.dashboard
+  end
+
+  def dashboard
+    @draft_open   = true #TODO make this a real switch
+    @picking_now  = self.picking
+    @picking_next = self.picking_next
+    @recent_picks = self.recent
+    @teams        = Team.all.to_a
+    @draftables   = Player.undrafted
     respond_to do |format|
       format.html
-      format.js { render :partial => 'shared/realtime', :locals => {:pick => @pick, :on_deck => @on_deck, :previous => @previous} }
-      format.json { render json: [@pick, @on_deck, @previous], include: [:team, :player] }
+      format.json { render json: [@recent_picks, @picking_now, @picking_next], include: [:team, :player]}
     end
   end
 
   def admin
+    @draft_open   = true #TODO make this a real switch
     @admin = true
-    self.index
+    self.dashboard
   end
 
   def by_round
@@ -26,5 +31,20 @@ class PicksController < ApplicationController
       format.html
       format.json { render json: @picks, include: [:team, :player] }
     end
+  end
+
+  def picking
+    Pick.active_pick
+  end
+
+  def picking_next
+    Pick.on_deck
+  end
+
+  def by_team
+  end
+
+  def recent
+    Pick.previous
   end
 end
