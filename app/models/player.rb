@@ -10,7 +10,7 @@ class Player < ActiveRecord::Base
   end
 
   def self.available_by_position(p)
-    Player.undrafted.where(position: p)
+    p.blank? ? [] : Player.undrafted.where(position: p)
   end
 
   def self.positions

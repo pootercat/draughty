@@ -30,7 +30,7 @@ class PicksController < ApplicationController
     r = params[:round]
     @picks = Pick.by_round(r)
     respond_to do |format|
-      format.html
+      format.html { render json: @picks, include: [:team, :player] }
       format.json { render json: @picks, include: [:team, :player] }
     end
   end

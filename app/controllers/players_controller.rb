@@ -9,7 +9,8 @@ class PlayersController < ApplicationController
 
   def available_by_position
     pos = params[:position]
-    @players = Player.available_by_position(pos.upcase)
+    pos.upcase! unless pos.blank?
+    @players = Player.available_by_position(pos)
     respond_to do |format|
       format.html { render json: @players }
       format.json { render json: @players }
