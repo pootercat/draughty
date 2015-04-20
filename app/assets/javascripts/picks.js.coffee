@@ -61,6 +61,7 @@ $ ->
   refresh_rate = 5000
   setTimeout(f = (->
     refresh_live_stats()
+    refresh_player_list()
     setTimeout(f, refresh_rate)
   ), refresh_rate)
 
@@ -70,6 +71,12 @@ $ ->
       $('.recent-picks-container').append("<p>" + d['team']['tname'] + " drafted " + d['player']['position'] + " " + d['player']['pname'] + "</p>")
     $('.picking_now').html(data[1]['team']['tname'])
     $('.picking_next').html(data[2]['team']['tname'])
+
+  update_player_list = (data) ->
+    $('.draftables-admin-container').html('')
+    for d in data
+      $('.draftables-admin-container').append "<div player_id='" + d['id'] + "'><div class='col-md-1 draft'><a class='draft-me' player_id='" + d['id'] + "'>Draft</a></div><div class='col-md-5 pname'>" + d['pname'] + "</div><div class='col-md-6 pposition'>" + d['position'] + "</div></div>"
+
 
   remove_drafted_player = (pid) ->
     $('.draftables-admin-container').find('div[player_id="' + pid + '"]').remove()
@@ -81,3 +88,11 @@ $ ->
         #flash message
       success: (data, textStatus, jqXHR) ->
         update_realtime_stats(data)
+
+  refresh_player_list = ->
+    $.ajax '/players/undrafted',
+      dataType: 'json',
+      error: (jqXHR, textStatus, error) ->
+        #flash message
+      success: (data, textStatus, jqXHR) ->
+        update_player_list(data)
