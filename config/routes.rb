@@ -1,4 +1,6 @@
 Draughty::Application.routes.draw do
+  get 'teams/index' => 'teams#index'
+  get 'players/index' => 'players#index'
   post 'teams/draft_player' => 'teams#draft_player'
   get "teams/picks"    => 'teams#picks'
   get "players/undrafted" => 'players#undrafted'

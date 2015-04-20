@@ -32,6 +32,14 @@ gem 'haml-rails'
 gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
 
+group :test do
+  gem 'pry'
+  gem 'simplecov'
+  gem 'rspec-rails', '~> 3.0.0'
+  gem 'rspec-given'
+  gem 'shoulda-matchers'
+end
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false

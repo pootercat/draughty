@@ -30,8 +30,4 @@ class Pick < ActiveRecord::Base
   def self.on_deck
     Pick.pending.order(pick: :asc).second
   end
-
-  def to_h
-    self.as_json
-  end
 end
