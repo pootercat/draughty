@@ -8,4 +8,12 @@ class Player < ActiveRecord::Base
   def self.undrafted
     Player.includes(:pick).where(:picks => {:player_id => nil}).order(position: :asc, pname: :asc)
   end
+
+  def self.available_by_position(p)
+    Player.undrafted.where(position: p)
+  end
+
+  def self.positions
+    Player.select(:position).uniq.map { |row| row.position }
+  end
 end

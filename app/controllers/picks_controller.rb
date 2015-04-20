@@ -12,6 +12,7 @@ class PicksController < ApplicationController
     @recent_picks = self.recent
     @teams        = Team.all.to_a
     @draftables   = Player.undrafted
+    @positions    = Player.positions.sort
     respond_to do |format|
       format.html
       format.json { render json: [@recent_picks, @picking_now, @picking_next], include: [:team, :player]}
@@ -20,6 +21,7 @@ class PicksController < ApplicationController
 
   def admin
     @draft_open   = true #TODO make this a real switch
+    @draftables   = Player.undrafted
     @admin = true
     self.dashboard
   end
