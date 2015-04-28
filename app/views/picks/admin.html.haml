@@ -6,7 +6,9 @@
     = render :partial => 'shared/admin_players'
 
 -elsif @draft_status == 'completed'
-  = render :partial => 'shared/draft_final'
+  %h4 Draft completed
+  = render :partial => 'shared/round_picks'
+  = render :partial => 'shared/team_picks'
 -else
   %h4 Draft data has not been loaded
 

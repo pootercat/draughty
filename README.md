@@ -3,10 +3,10 @@
 ## Requirements
 * Ruby 2.0
 * Rails 4
-* Postgres
+* Sqlite
 
 ## DB Setup
-In order to prep the database for the draft you must first migrate the database: This will likely require you to create the postgres user and grant proper permissions for DB creation and other write operations
+In order to prep the database for the draft you must first migrate the database:
 
 ```
 bundle exec rake db:migrate
@@ -25,6 +25,8 @@ bundle exec rake import:picks
 
 To Reset:
 bundle exec rake import:reset
+
+This command is destructive and will empty all records from the DB tables
 ```
 
 ## Simulate Draft
@@ -34,12 +36,13 @@ Autodraft will allow the user to automate the draft process. The system will cho
 bundle exec rake draft:simulate
 ```
 
+While running this task, as a user you will be able to monitor realtime picks and updates
+
 ## Testing
 ```
 bundle exec rspec
 ```
 
 ## TODOs
-* Implement flash messages
 * Cucumber Tests
 * Jasmine Tests

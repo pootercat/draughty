@@ -13,8 +13,6 @@ class PicksController < ApplicationController
     @teams        = Team.all.to_a
     @draftables   = Player.undrafted
     @positions    = Player.positions.sort
-    #only retrieve final pick data if draft is done
-    @final_picks  = Pick.completed if @draft_status == 'completed'
     respond_to do |format|
       format.html
       format.json { render json: [@recent_picks, @picking_now, @picking_next], include: [:team, :player]}
@@ -24,8 +22,6 @@ class PicksController < ApplicationController
   def admin
     @draft_status = draft_status
     @draftables   = Player.undrafted
-    #only retrieve final pick data if draft is done
-    @final_picks  = Pick.completed if @draft_status == 'completed'
     @admin = true
     self.dashboard
   end
