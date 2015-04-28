@@ -6,13 +6,15 @@ class PicksController < ApplicationController
   end
 
   def dashboard
-    @draft_open   = true #TODO make this a real switch
+    @draft_status = draft_status
     @picking_now  = self.picking
     @picking_next = self.picking_next
     @recent_picks = self.recent
     @teams        = Team.all.to_a
     @draftables   = Player.undrafted
     @positions    = Player.positions.sort
+    #only retrieve final pick data if draft is done
+    @final_picks  = Pick.completed if @draft_status == 'completed'
     respond_to do |format|
       format.html
       format.json { render json: [@recent_picks, @picking_now, @picking_next], include: [:team, :player]}
@@ -20,8 +22,10 @@ class PicksController < ApplicationController
   end
 
   def admin
-    @draft_open   = true #TODO make this a real switch
+    @draft_status = draft_status
     @draftables   = Player.undrafted
+    #only retrieve final pick data if draft is done
+    @final_picks  = Pick.completed if @draft_status == 'completed'
     @admin = true
     self.dashboard
   end
@@ -48,5 +52,12 @@ class PicksController < ApplicationController
 
   def recent
     Pick.previous
+  end
+
+  private
+  def draft_status
+    has_picks = Pick.all.size > 0
+    has_pending = Pick.pending.size > 0
+    (has_picks && !has_pending) ? 'completed' : has_pending ? 'open' : 'empty'
   end
 end

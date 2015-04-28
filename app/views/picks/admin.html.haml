@@ -1,11 +1,12 @@
--if @draft_open
+-if @draft_status == 'open'
   #pick-dashboard
     %h3 Draft Command Center
 
-    %div.rtest
-      = render :partial => 'shared/realtime'
+    = render :partial => 'shared/realtime'
     = render :partial => 'shared/admin_players'
 
+-elsif @draft_status == 'completed'
+  = render :partial => 'shared/draft_final'
 -else
-  %h4 Draft not active
+  %h4 Draft data has not been loaded
 

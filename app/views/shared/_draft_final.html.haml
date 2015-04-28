@@ -1,0 +1,14 @@
+.panel-group#accordian
+  .panel.panel-default
+    .panel-heading
+      %h4.panel-title
+        %a{"data-toggle"=>"collapse", "data-parent"=>"#accordion", "href"=>"#collapse4"} Final Results
+    #collapse4.panel-collapse.collapse
+      .panel-body
+        %span.draftables-admin-container
+          -@final_picks.each do |p|
+            .col-md-1 R: #{p['round']}
+            .col-md-1 P: #{p['pick']}
+            .col-md-4 #{p['team']['tname']}
+            .col-md-4.pname #{r['player']['pname']}
+            .col-md-2.pname #{r['player']['position']}

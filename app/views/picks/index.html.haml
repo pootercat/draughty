@@ -1,4 +1,4 @@
--if @draft_open
+-if @draft_status == 'open'
   #pick-dashboard
     %h3 Draft Stats Dashboard
 
@@ -7,6 +7,7 @@
     = render :partial => 'shared/team_picks'
     = render :partial => 'shared/available_players'
 
+-elsif @draft_status == 'completed'
+  = render :partial => 'shared/draft_final'
 -else
-  %h4 Draft not active
--#   = render :partial => 'shared/draft_final'
+  %h4 Draft data has not been loaded
