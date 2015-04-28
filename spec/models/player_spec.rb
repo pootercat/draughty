@@ -1,11 +1,14 @@
 require 'spec_helper'
 
 describe Player do
+  before :example do
+    create(:team)
+    create(:player)
+  end
+
   context "" do
 
     it 'should return a list of undrafted players' do
-      Team.create(tname: 'Packers', division: 'NFC')
-      Player.create(pname: 'John Smith', position: 'QB')
       Player.create(pname: 'Joe Montana', position: 'QB')
       Player.create(pname: 'Drew Bledsoe', position: 'QB')
       Player.create(pname: 'Dion Sanders', position: 'QB')
@@ -14,7 +17,6 @@ describe Player do
     end
 
     it 'should return unique list of positions' do
-      Player.create(pname: 'John Smith', position: 'QB')
       Player.create(pname: 'Joe Montana', position: 'RB')
       Player.create(pname: 'Drew Bledsoe', position: 'WR')
       Player.create(pname: 'Dion Sanders', position: 'P')
@@ -25,8 +27,6 @@ describe Player do
     end
 
     it 'should return list of players available by position' do
-      Team.create(tname: 'Packers', division: 'NFC')
-      Player.create(pname: 'John Smith', position: 'QB')
       Player.create(pname: 'Joe Montana', position: 'RB')
       Player.create(pname: 'Drew Bledsoe', position: 'WR')
       Player.create(pname: 'Dion Sanders', position: 'P')

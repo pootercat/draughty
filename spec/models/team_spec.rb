@@ -1,16 +1,19 @@
 require 'spec_helper'
 
 describe Team do
+  before :example do
+    create(:team)
+    create(:player)
+  end
+
   context "" do
 
     it 'should find team by name or id' do
-      Team.create(tname: 'Packers', division: 'NFC')
-      Team.create(tname: 'Giants', division: 'AFC')
-      Team.create(tname: 'Jets', division: 'NFC')
-      Team.create(tname: 'Browns', division: 'AAA')
-      Team.create(tname: 'Bengals', division: 'NFC')
-      Player.create(pname: 'John Smith', position: 'QB')
-      Pick.create(round: 1, pick:1)
+      create(:team, { tname: 'Packers', division: 'NFC' })
+      create(:team, { tname: 'Giants', division: 'AFC' })
+      create(:team, { tname: 'Jets', division: 'NFC' })
+      create(:team, { tname: 'Bengals', division: 'NFC' })
+      create(:pick)
       Team.draft_player(Player.first['id'])
       expect(Team.all.to_a.size).to eq 5
       expect(Team.find_by_name_or_id('Browns')['tname']).to eq 'Browns'
@@ -18,8 +21,6 @@ describe Team do
     end
 
     it 'should draft player' do
-      Team.create(tname: 'Browns', division: 'AAA')
-      Player.create(pname: 'John Smith', position: 'QB')
       Pick.create(round: 1, pick:1, team_id: Team.first['id'])
       before_draft = Pick.completed.to_a.size
       Team.draft_player(Player.first['id'])

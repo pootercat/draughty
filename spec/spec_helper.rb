@@ -7,6 +7,7 @@ require 'rspec/given'
 require 'shoulda/matchers'
 
 RSpec.configure do |config|
+  config.include FactoryGirl::Syntax::Methods
   config.before(:each) do
     Pick.delete_all
     Team.delete_all
